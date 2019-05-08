@@ -18,13 +18,21 @@ def OpenUrlRes(url):
 
 def GetPicAddr(url):
     html = OpenUrlRes(url).decode("utf-8")
-#    pattern = re.compile(r"https{0,1}://\S*(.jpg|.png)")
-    pictureAddr = re.findall(r"https{0,1}://isujin.com/wp-content/uploads\S*(.jpg|.png)", html)
-    print(str(pictureAddr))
+    # https{0,1}://isujin.com/wp-content/uploads\S*(.jpg|.png)
+    # [a-zA-z]+://[^\s]*\d{4}.jpg
+    pictureAddr = re.findall(
+        r"https{0,1}://isujin.com/wp-content/uploads\S*.jpg", html)
+    return pictureAddr
+
+# 把图片下载并存入文件夹中
 
 
 def SavePic(url):
-    pass
+    for item in GetPicAddr(url):
+        filename = item.split("/")[-1]
+        with open(filename, "wb") as f:
+            pictrue = OpenUrlRes(item)
+            f.write(pictrue)
 
 
 def DownloadPic(folder="WallPaper", page=10):
@@ -34,6 +42,7 @@ def DownloadPic(folder="WallPaper", page=10):
     url = "https://isujin.com/5882"
 
     GetPicAddr(url)
+    SavePic(url)
 
 
 if __name__ == "__main__":
