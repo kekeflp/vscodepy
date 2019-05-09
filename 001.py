@@ -18,10 +18,10 @@ def OpenUrlRes(url):
 
 def GetPicAddr(url):
     html = OpenUrlRes(url).decode("utf-8")
-    # https{0,1}://isujin.com/wp-content/uploads\S*(.jpg|.png)
+    # https{0,1}://isujin.com/wp-content/uploads\S*(.jpg|.png)---后缀不符合
     # [a-zA-z]+://[^\s]*\d{4}.jpg
     pictureAddr = re.findall(
-        r"https{0,1}://isujin.com/wp-content/uploads\S*.jpg", html)
+        r"[a-zA-z]+://isujin.com/wp-content/uploads\S*\d{4}.[a-z|A-Z]{3}", html)
     return pictureAddr
 
 # 把图片下载并存入文件夹中
